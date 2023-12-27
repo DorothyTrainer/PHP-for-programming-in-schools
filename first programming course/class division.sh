@@ -14,3 +14,22 @@ update_test_genesis () {
 $BINARY add-genesis-account $KEY "1000000000000${DENOM}" --keyring-backend $KEYRING --home $HOME
 
 $BINARY add-genesis-account $KEY1 "1000000000000${DENOM}" --keyring-backend $KEYRING --home $HOME
+
+getTime() {
+
+    time="$(($(date +%s%3N) - $start))"
+    sec=$(($time/1000))
+    nanoSec=$(($time-($sec*1000)))
+    case $nanoSec in
+        [1-9])
+        nanoSec=00$nanoSec
+        ;;
+        [1-9][0-9])
+        nanoSec=0$nanoSec
+        ;;
+        *)
+        ;;
+    esac
+    timeSec=$(date -u -d "@$sec" +%H:%M:%S)
+    result=$timeSec","$nanoSec
+}
